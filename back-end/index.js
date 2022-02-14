@@ -43,6 +43,7 @@ const typeDefs = `
       description: String
     ): String
     deleteTodo(id: Int): String
+    deleteDoneItems: String
   }
 `;
 
@@ -78,7 +79,17 @@ const resolvers = {
                 }
             })
             return 'Delete success!';
-        }
+        },
+        deleteDoneItems: async (root, args, context, info) => {
+            // if (!args.id) return;
+            let todo = await db.Todo.destroy({
+                where: {
+                    isFinished: true
+                }
+            })
+            return 'Delete success!';
+
+        },
     }
 };
 

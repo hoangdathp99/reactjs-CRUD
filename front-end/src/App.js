@@ -44,11 +44,15 @@ function App() {
             deleteTodo(id: $id)
         }
     `;
+    const CLEAR_DONE_TODO = gql`
+        mutation Deletedone {
+             deleteDoneItems
+        }`;
 
     const [create_todo, { data, loading, error, reset }] = useMutation(CREATE_TODO);
     const [update_todo, {}] = useMutation(UPDATE_TODO);
     const [delete_todo, {}] = useMutation(DELETE_TODO);
-
+    const [delete_done,{}] = useMutation(CLEAR_DONE_TODO);
     useEffect(() => {
         getData();
     }, []);
@@ -88,7 +92,7 @@ function App() {
                       }}
                       className={'p-3'}
                   >
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                           <Form.Control
                               type="text"
                               placeholder="Enter description"
@@ -101,7 +105,7 @@ function App() {
                           Submit
                       </Button>
                   </Form>
-                  <ListGroup as="ol" numbered className={'mt-5'}>
+                  <ListGroup as="ol" numbered className={'mt-2'}>
                       {
                           todos && todos.map(todo => {
                               return (
@@ -128,6 +132,9 @@ function App() {
                           })
                       }
                   </ListGroup>
+                  <Button variant="success" type="submit" className={'mt-3'} onClick={()=>{delete_done().then(()=>getData())}}>
+                      clear done Todo
+                  </Button>
               </Card>
           </Col>
         </Row>
