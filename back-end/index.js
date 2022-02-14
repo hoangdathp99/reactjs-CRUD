@@ -1,5 +1,6 @@
 const { ApolloServer, gql } = require("apollo-server")
 const  db  = require("./mysql")
+// const {JSON} = require("sequelize");
 // const express = require('express')
 // const Cors = require('cors')
 // const typeDefs = `
@@ -55,10 +56,12 @@ const resolvers = {
     },
     Mutation: {
         createTodo: async (root, args, context, info) => {
+
             let todo = await db.Todo.create({
                 description: args.description,
                 // isFinished: args.isFinished,
             });
+
             return todo.id;
         },
         updateTodo: async (root, args, context, info) => {
